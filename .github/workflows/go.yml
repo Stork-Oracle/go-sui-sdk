@@ -18,7 +18,7 @@ jobs:
           go-version: 1.24.3
 
       - name: Start Sui
-        run: docker compose up -d
+        run: docker compose up -d --quiet-pull
 
       - name: Integration Test
         run: go test -v ./...
