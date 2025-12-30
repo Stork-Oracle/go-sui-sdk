@@ -4,12 +4,12 @@ import (
 	"context"
 	"testing"
 
-	"github.com/coming-chat/go-sui/v2/account"
-	"github.com/coming-chat/go-sui/v2/lib"
-	"github.com/coming-chat/go-sui/v2/sui_types"
-	"github.com/coming-chat/go-sui/v2/sui_types/sui_system_state"
-	"github.com/coming-chat/go-sui/v2/types"
 	"github.com/fardream/go-bcs/bcs"
+	"github.com/stork-oracle/go-sui/v2/account"
+	"github.com/stork-oracle/go-sui/v2/lib"
+	"github.com/stork-oracle/go-sui/v2/sui_types"
+	"github.com/stork-oracle/go-sui/v2/sui_types/sui_system_state"
+	"github.com/stork-oracle/go-sui/v2/types"
 	"github.com/stretchr/testify/require"
 )
 

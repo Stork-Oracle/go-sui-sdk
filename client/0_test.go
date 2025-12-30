@@ -5,11 +5,11 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/coming-chat/go-sui/v2/sui_types"
-	"github.com/coming-chat/go-sui/v2/types"
 	"github.com/shopspring/decimal"
+	"github.com/stork-oracle/go-sui/v2/sui_types"
+	"github.com/stork-oracle/go-sui/v2/types"
 
-	"github.com/coming-chat/go-sui/v2/account"
+	"github.com/stork-oracle/go-sui/v2/account"
 	"github.com/stretchr/testify/require"
 )
 

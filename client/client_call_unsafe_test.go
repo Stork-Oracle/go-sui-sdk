@@ -6,10 +6,10 @@ import (
 	"math/big"
 	"testing"
 
-	"github.com/coming-chat/go-sui/v2/sui_types"
+	"github.com/stork-oracle/go-sui/v2/sui_types"
 
-	"github.com/coming-chat/go-sui/v2/account"
-	"github.com/coming-chat/go-sui/v2/types"
+	"github.com/stork-oracle/go-sui/v2/account"
+	"github.com/stork-oracle/go-sui/v2/types"
 	"github.com/stretchr/testify/require"
 )
 
