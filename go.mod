@@ -1,6 +1,6 @@
 module github.com/coming-chat/go-sui/v2
 
-go 1.18
+go 1.24.3
 
 require (
 	github.com/btcsuite/btcutil v1.0.2

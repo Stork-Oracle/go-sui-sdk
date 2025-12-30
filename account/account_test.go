@@ -2,16 +2,16 @@ package account
 
 import (
 	"encoding/json"
-	"os"
 	"testing"
 
 	"github.com/coming-chat/go-sui/v2/sui_types"
 	"github.com/stretchr/testify/require"
 )
 
-var Mnemonic = os.Getenv("WalletSdkTestM1")
+var Mnemonic = "auction dose outer sorry interest daring marine tent element curious warm penalty"
 
 func TestMyAccouunt(t *testing.T) {
+	t.Parallel()
 	account, err := NewAccountWithMnemonic(Mnemonic)
 	require.Nil(t, err)
 
@@ -19,6 +19,7 @@ func TestMyAccouunt(t *testing.T) {
 }
 
 func Test_Signature_Marshal_Unmarshal(t *testing.T) {
+	t.Parallel()
 	account, err := NewAccountWithMnemonic(Mnemonic)
 	require.Nil(t, err)
 
