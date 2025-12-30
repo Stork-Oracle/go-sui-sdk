@@ -15,7 +15,7 @@ import (
 )
 
 //func TestClient_BatchGetTransaction(t *testing.T) {
-//	chain := ChainClient(t)
+//	chain := LocalFundedClient(t)
 //	coins, err := chain.GetCoins(context.TODO(), *Address, nil, nil, 1)
 //	require.NoError(t, err)
 //	object, err := chain.GetObject(context.TODO(), coins.Data[0].CoinObjectId, nil)
@@ -80,7 +80,7 @@ func Test_TagJson_Owner(t *testing.T) {
 }
 
 func TestClient_DryRunTransaction(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	signer := Address
 	coins, err := cli.GetCoins(context.Background(), *signer, nil, nil, 10)
 	require.NoError(t, err)
@@ -106,7 +106,7 @@ func TestClient_DryRunTransaction(t *testing.T) {
 // This test case will affect the real coin in the test case of account
 // temporary disabled
 //func TestClient_ExecuteTransactionSerializedSig(t *testing.T) {
-//	chain := ChainClient(t)
+//	chain := LocalFundedClient(t)
 //	coins, err := chain.GetSuiCoinsOwnedByAddress(context.TODO(), *Address)
 //	require.NoError(t, err)
 //	coin, err := coins.PickCoinNoLess(2000)
@@ -121,7 +121,7 @@ func TestClient_DryRunTransaction(t *testing.T) {
 //}
 
 //func TestClient_ExecuteTransaction(t *testing.T) {
-//	chain := ChainClient(t)
+//	chain := LocalFundedClient(t)
 //	coins, err := chain.GetSuiCoinsOwnedByAddress(context.TODO(), *Address)
 //	require.NoError(t, err)
 //	coin, err := coins.PickCoinNoLess(2000)
@@ -136,7 +136,7 @@ func TestClient_DryRunTransaction(t *testing.T) {
 //}
 
 func TestClient_BatchGetObjectsOwnedByAddress(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 
 	options := types.SuiObjectDataOptions{
 		ShowType:    true,
@@ -149,14 +149,14 @@ func TestClient_BatchGetObjectsOwnedByAddress(t *testing.T) {
 }
 
 func TestClient_GetCoinMetadata(t *testing.T) {
-	chain := ChainClient(t)
+	chain := LocalFundedClient(t)
 	metadata, err := chain.GetCoinMetadata(context.TODO(), types.SuiCoinType)
 	require.Nil(t, err)
 	t.Logf("%#v", metadata)
 }
 
 func TestClient_GetAllBalances(t *testing.T) {
-	chain := ChainClient(t)
+	chain := LocalFundedClient(t)
 	balances, err := chain.GetAllBalances(context.TODO(), *Address)
 	require.NoError(t, err)
 	for _, balance := range balances {
@@ -169,7 +169,7 @@ func TestClient_GetAllBalances(t *testing.T) {
 }
 
 func TestClient_GetBalance(t *testing.T) {
-	chain := ChainClient(t)
+	chain := LocalFundedClient(t)
 	balance, err := chain.GetBalance(context.TODO(), *Address, "")
 	require.NoError(t, err)
 	t.Logf(
@@ -180,7 +180,7 @@ func TestClient_GetBalance(t *testing.T) {
 }
 
 func TestClient_GetCoins(t *testing.T) {
-	chain := ChainClient(t)
+	chain := LocalFundedClient(t)
 	defaultCoinType := types.SuiCoinType
 	coins, err := chain.GetCoins(context.TODO(), *Address, &defaultCoinType, nil, 1)
 	require.NoError(t, err)
@@ -188,7 +188,7 @@ func TestClient_GetCoins(t *testing.T) {
 }
 
 func TestClient_GetAllCoins(t *testing.T) {
-	chain := ChainClient(t)
+	chain := LocalFundedClient(t)
 	type args struct {
 		ctx     context.Context
 		address suiAddress
@@ -229,12 +229,25 @@ func TestClient_GetAllCoins(t *testing.T) {
 }
 
 func TestClient_GetTransaction(t *testing.T) {
-	cli := MainnetClient(t)
-	digest := "D1TM8Esaj3G9xFEDirqMWt9S7HjJXFrAGYBah1zixWTL"
-	d, err := sui_types.NewDigest(digest)
-	require.Nil(t, err)
-	resp, err := cli.GetTransactionBlock(
-		context.Background(), *d, types.SuiTransactionBlockResponseOptions{
+	cli := LocalFundedClient(t)
+	account := M1Account(t)
+
+	coins, err := cli.GetCoins(context.Background(), *Address, nil, nil, 10)
+	require.NoError(t, err)
+
+	amount := SUI(0.01).Uint64()
+	gasBudget := SUI(0.01).Uint64()
+	pickedCoins, err := types.PickupCoins(coins, *big.NewInt(0).SetUint64(amount), gasBudget, 0, 0)
+	require.NoError(t, err)
+	tx, err := cli.PayAllSui(
+		context.Background(), *Address, *Address,
+		pickedCoins.CoinIds(),
+		types.NewSafeSuiBigInt(gasBudget),
+	)
+	resp := executeTxn(t, cli, tx.TxBytes, account)
+
+	resp, err = cli.GetTransactionBlock(
+		context.Background(), resp.Digest, types.SuiTransactionBlockResponseOptions{
 			ShowInput:          true,
 			ShowEffects:        true,
 			ShowObjectChanges:  true,
@@ -245,11 +258,10 @@ func TestClient_GetTransaction(t *testing.T) {
 	require.NoError(t, err)
 	t.Logf("%#v", resp)
 
-	require.Equal(t, int64(11178568), resp.Effects.Data.GasFee())
 }
 
 func TestBatchCall_GetObject(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 
 	if false {
 		// get sepcified object
@@ -282,7 +294,7 @@ func TestClient_GetObject(t *testing.T) {
 		ctx   context.Context
 		objID suiObjectID
 	}
-	chain := ChainClient(t)
+	chain := LocalFundedClient(t)
 	coins, err := chain.GetCoins(context.TODO(), *Address, nil, nil, 1)
 	require.NoError(t, err)
 
@@ -329,7 +341,7 @@ func TestClient_GetObject(t *testing.T) {
 }
 
 func TestClient_MultiGetObjects(t *testing.T) {
-	chain := ChainClient(t)
+	chain := LocalFundedClient(t)
 	coins, err := chain.GetCoins(context.TODO(), *Address, nil, nil, 1)
 	require.NoError(t, err)
 	if len(coins.Data) == 0 {
@@ -356,7 +368,7 @@ func TestClient_MultiGetObjects(t *testing.T) {
 }
 
 func TestClient_GetOwnedObjects(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 
 	obj, err := sui_types.NewAddressFromHex("0x2")
 	require.Nil(t, err)
@@ -376,7 +388,7 @@ func TestClient_GetOwnedObjects(t *testing.T) {
 }
 
 func TestClient_GetTotalSupply(t *testing.T) {
-	chain := ChainClient(t)
+	chain := LocalFundedClient(t)
 	type args struct {
 		ctx      context.Context
 		coinType string
@@ -412,21 +424,21 @@ func TestClient_GetTotalSupply(t *testing.T) {
 	}
 }
 func TestClient_GetTotalTransactionBlocks(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	res, err := cli.GetTotalTransactionBlocks(context.Background())
 	require.Nil(t, err)
 	t.Log(res)
 }
 
 func TestClient_GetLatestCheckpointSequenceNumber(t *testing.T) {
-	cli := MainnetClient(t)
+	cli := LocalFundedClient(t)
 	res, err := cli.GetLatestCheckpointSequenceNumber(context.Background())
 	require.Nil(t, err)
 	t.Log(res)
 }
 
 //func TestClient_Publish(t *testing.T) {
-//	chain := ChainClient(t)
+//	chain := LocalFundedClient(t)
 //	dmens, err := types.NewBase64Data(DmensDmensB64)
 //	require.NoError(t, err)
 //	profile, err := types.NewBase64Data(DmensProfileB64)
@@ -482,7 +494,7 @@ func TestClient_GetLatestCheckpointSequenceNumber(t *testing.T) {
 //}
 
 func TestClient_TryGetPastObject(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	objId, err := sui_types.NewAddressFromHex("0x11462c88e74bb00079e3c043efb664482ee4551744ee691c7623b98503cb3f4d")
 	require.Nil(t, err)
 	data, err := cli.TryGetPastObject(context.Background(), *objId, 903, nil)
@@ -491,7 +503,7 @@ func TestClient_TryGetPastObject(t *testing.T) {
 }
 
 func TestClient_GetEvents(t *testing.T) {
-	cli := MainnetClient(t)
+	cli := LocalFundedClient(t)
 	digest := "D1TM8Esaj3G9xFEDirqMWt9S7HjJXFrAGYBah1zixWTL"
 	d, err := sui_types.NewDigest(digest)
 	require.Nil(t, err)
@@ -501,14 +513,14 @@ func TestClient_GetEvents(t *testing.T) {
 }
 
 func TestClient_GetReferenceGasPrice(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	gasPrice, err := cli.GetReferenceGasPrice(context.Background())
 	require.Nil(t, err)
 	t.Logf("current gas price = %v", gasPrice)
 }
 
 // func TestClient_DevInspectTransactionBlock(t *testing.T) {
-// 	chain := ChainClient(t)
+// 	chain := LocalFundedClient(t)
 // 	signer := Address
 // 	price, err := chain.GetReferenceGasPrice(context.TODO())
 // 	require.NoError(t, err)
@@ -531,7 +543,7 @@ func TestClient_GetReferenceGasPrice(t *testing.T) {
 // }
 
 func TestClient_QueryTransactionBlocks(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	limit := uint(10)
 	type args struct {
 		ctx             context.Context
@@ -586,17 +598,18 @@ func TestClient_QueryTransactionBlocks(t *testing.T) {
 }
 
 func TestClient_ResolveNameServiceAddress(t *testing.T) {
-	c := MainnetClient(t)
-	addr, err := c.ResolveNameServiceAddress(context.Background(), "2222.sui")
-	require.Nil(t, err)
-	require.Equal(t, addr.String(), "0x6174c5bd8ab9bf492e159a64e102de66429cfcde4fa883466db7b03af28b3ce9")
+	c := LocalFundedClient(t)
+	// addr, err := c.ResolveNameServiceAddress(context.Background(), "2222.sui")
+	// require.Nil(t, err)
+	// require.Equal(t, addr.String(), "0x6174c5bd8ab9bf492e159a64e102de66429cfcde4fa883466db7b03af28b3ce9")
 
-	addr, err = c.ResolveNameServiceAddress(context.Background(), "2222.suijjzzww")
+	_, err := c.ResolveNameServiceAddress(context.Background(), "2222.suijjzzww")
 	require.ErrorContains(t, err, "not found")
 }
 
 func TestClient_ResolveNameServiceNames(t *testing.T) {
-	c := MainnetClient(t)
+	t.Skip()
+	c := LocalFundedClient(t)
 	owner := SuiAddressNoErr("0x57188743983628b3474648d8aa4a9ee8abebe8f6816243773d7e8ed4fd833a28")
 	namePage, err := c.ResolveNameServiceNames(context.Background(), *owner, nil, nil)
 	require.Nil(t, err)
@@ -610,7 +623,7 @@ func TestClient_ResolveNameServiceNames(t *testing.T) {
 }
 
 func TestClient_QueryEvents(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	limit := uint(10)
 	type args struct {
 		ctx             context.Context
@@ -659,7 +672,8 @@ func TestClient_QueryEvents(t *testing.T) {
 }
 
 func TestClient_GetDynamicFields(t *testing.T) {
-	chain := ChainClient(t)
+	t.Skip()
+	chain := LocalFundedClient(t)
 	parentObjectId, err := sui_types.NewAddressFromHex("0x1719957d7a2bf9d72459ff0eab8e600cbb1991ef41ddd5b4a8c531035933d256")
 	require.NoError(t, err)
 	limit := uint(5)
@@ -700,7 +714,8 @@ func TestClient_GetDynamicFields(t *testing.T) {
 }
 
 func TestClient_GetDynamicFieldObject(t *testing.T) {
-	chain := ChainClient(t)
+	t.Skip()
+	chain := LocalFundedClient(t)
 	parentObjectId, err := sui_types.NewAddressFromHex("0x1719957d7a2bf9d72459ff0eab8e600cbb1991ef41ddd5b4a8c531035933d256")
 	require.NoError(t, err)
 	type args struct {

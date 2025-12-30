@@ -45,11 +45,19 @@ func FaucetFundAccount(address string, faucetUrl string) (string, error) {
 	}
 
 	var response struct {
+		// Old format (pre-v1.0)
 		TransferredGasObjects []struct {
 			Amount uint64 `json:"amount"`
 			Id     string `json:"id"`
 			Digest string `json:"transferTxDigest"`
 		} `json:"transferredGasObjects,omitempty"`
+		// New format (v1.0+)
+		Status    string `json:"status,omitempty"`
+		CoinsSent []struct {
+			Amount uint64 `json:"amount"`
+			Id     string `json:"id"`
+			Digest string `json:"transferTxDigest"`
+		} `json:"coins_sent,omitempty"`
 		Error string `json:"error,omitempty"`
 	}
 	err = json.Unmarshal(resByte, &response)
@@ -59,9 +67,15 @@ func FaucetFundAccount(address string, faucetUrl string) (string, error) {
 	if strings.TrimSpace(response.Error) != "" {
 		return "", errors.New(response.Error)
 	}
-	if len(response.TransferredGasObjects) <= 0 {
-		return "", errors.New("transaction not found")
+
+	// Try new format first
+	if len(response.CoinsSent) > 0 {
+		return response.CoinsSent[0].Digest, nil
+	}
+	// Fall back to old format
+	if len(response.TransferredGasObjects) > 0 {
+		return response.TransferredGasObjects[0].Digest, nil
 	}
 
-	return response.TransferredGasObjects[0].Digest, nil
+	return "", errors.New("transaction not found")
 }

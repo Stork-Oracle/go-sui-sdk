@@ -20,7 +20,7 @@ func ManualTest_AccountSignAndSend(t *testing.T) {
 	require.Nil(t, err)
 	t.Log(account.Address)
 
-	cli := TestnetClient(t)
+	cli := LocalFundedClient(t)
 	signer := SuiAddressNoErr(account.Address)
 	coins, err := cli.GetSuiCoinsOwnedByAddress(context.Background(), *signer)
 	require.Nil(t, err)

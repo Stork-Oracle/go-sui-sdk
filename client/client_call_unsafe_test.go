@@ -14,13 +14,12 @@ import (
 )
 
 func TestClient_TransferObject(t *testing.T) {
-	cli := MainnetClient(t)
-	signer := SuiAddressNoErr("0x57188743983628b3474648d8aa4a9ee8abebe8f6816243773d7e8ed4fd833a28")
+	cli := LocalFundedClient(t)
+	signer := Address
 	recipient := signer
-	coins, err := cli.GetCoins(context.Background(), *signer, nil, nil, 10)
-	require.NoError(t, err)
-	require.GreaterOrEqual(t, len(coins.Data), 2)
-	coin := coins.Data[0]
+	coins := GetCoins(t, cli, M1Account(t), 2)
+	require.GreaterOrEqual(t, len(coins), 2)
+	coin := coins[0]
 
 	txn, err := cli.TransferObject(
 		context.Background(), *signer, *recipient,
@@ -32,7 +31,7 @@ func TestClient_TransferObject(t *testing.T) {
 }
 
 func TestClient_TransferSui(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	signer := M1Address(t)
 	recipient := signer
 	coins, err := cli.GetCoins(context.Background(), *signer, nil, nil, 10)
@@ -55,7 +54,7 @@ func TestClient_TransferSui(t *testing.T) {
 }
 
 func TestClient_PayAllSui(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	signer := M1Address(t)
 	recipient := signer
 	coins, err := cli.GetCoins(context.Background(), *signer, nil, nil, 10)
@@ -77,7 +76,7 @@ func TestClient_PayAllSui(t *testing.T) {
 }
 
 func TestClient_Pay(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	signer := M1Address(t)
 	recipient := Address
 	coins, err := cli.GetCoins(context.Background(), *signer, nil, nil, 10)
@@ -105,7 +104,7 @@ func TestClient_Pay(t *testing.T) {
 }
 
 func TestClient_PaySui(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	signer := M1Address(t)
 	recipient := Address
 	coins, err := cli.GetCoins(context.Background(), *signer, nil, nil, 10)
@@ -131,7 +130,7 @@ func TestClient_PaySui(t *testing.T) {
 }
 
 func TestClient_SplitCoin(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	signer := M1Address(t)
 	coins, err := cli.GetCoins(context.Background(), *signer, nil, nil, 10)
 	require.NoError(t, err)
@@ -154,7 +153,7 @@ func TestClient_SplitCoin(t *testing.T) {
 }
 
 func TestClient_SplitCoinEqual(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	signer := M1Address(t)
 	coins, err := cli.GetCoins(context.Background(), *signer, nil, nil, 10)
 	require.NoError(t, err)
@@ -176,7 +175,7 @@ func TestClient_SplitCoinEqual(t *testing.T) {
 }
 
 func TestClient_MergeCoins(t *testing.T) {
-	cli := ChainClient(t)
+	cli := LocalFundedClient(t)
 	signer := Address
 	coins, err := cli.GetCoins(context.Background(), *signer, nil, nil, 10)
 	require.NoError(t, err)
@@ -198,7 +197,7 @@ func TestClient_MergeCoins(t *testing.T) {
 
 func TestClient_Publish(t *testing.T) {
 	t.Log("TestClient_Publish TODO")
-	// cli := ChainClient(t)
+	// cli := LocalFundedClient(t)
 
 	// txnBytes, err := cli.Publish(context.Background(), *signer, *coin1, *coin2, nil, 10000)
 	// require.Nil(t, err)
@@ -207,7 +206,7 @@ func TestClient_Publish(t *testing.T) {
 
 func TestClient_MoveCall(t *testing.T) {
 	t.Log("TestClient_MoveCall TODO")
-	// cli := ChainClient(t)
+	// cli := LocalFundedClient(t)
 
 	// txnBytes, err := cli.MoveCall(context.Background(), *signer, *coin1, *coin2, nil, 10000)
 	// require.Nil(t, err)
@@ -216,7 +215,7 @@ func TestClient_MoveCall(t *testing.T) {
 
 func TestClient_BatchTransaction(t *testing.T) {
 	t.Log("TestClient_BatchTransaction TODO")
-	// cli := ChainClient(t)
+	// cli := LocalFundedClient(t)
 
 	// txnBytes, err := cli.BatchTransaction(context.Background(), *signer, *coin1, *coin2, nil, 10000)
 	// require.Nil(t, err)
