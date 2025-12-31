@@ -1,4 +1,4 @@
-module github.com/stork-oracle/go-sui/v2
+module github.com/stork-oracle/go-sui-sdk
 
 go 1.24.3
 

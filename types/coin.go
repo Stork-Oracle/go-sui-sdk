@@ -5,7 +5,7 @@ import (
 	"math/big"
 	"sort"
 
-	"github.com/stork-oracle/go-sui/v2/sui_types"
+	"github.com/stork-oracle/go-sui-sdk/sui_types"
 )
 
 const SUI_COIN_TYPE = "0x2::sui::SUI"
