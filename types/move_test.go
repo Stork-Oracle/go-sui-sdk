@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/stork-oracle/go-sui-sdk/sui_types"
+	"github.com/stork-oracle/go-sui-sdk/v2/sui_types"
 	"github.com/stretchr/testify/require"
 )
 

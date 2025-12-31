@@ -1,6 +1,6 @@
 package types
 
-import "github.com/stork-oracle/go-sui-sdk/sui_types"
+import "github.com/stork-oracle/go-sui-sdk/v2/sui_types"
 
 type EventId struct {
 	TxDigest sui_types.TransactionDigest `json:"txDigest"`

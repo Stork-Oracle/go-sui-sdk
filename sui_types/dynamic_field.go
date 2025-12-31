@@ -1,6 +1,6 @@
 package sui_types
 
-import "github.com/stork-oracle/go-sui-sdk/lib"
+import "github.com/stork-oracle/go-sui-sdk/v2/lib"
 
 type DynamicFieldType struct {
 	DynamicField  *lib.EmptyEnum `json:"DynamicField"`
