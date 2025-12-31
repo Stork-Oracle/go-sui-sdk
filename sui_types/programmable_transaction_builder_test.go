@@ -3,8 +3,8 @@ package sui_types
 import (
 	"testing"
 
+	"github.com/Stork-Oracle/go-sui-sdk/v2/move_types"
 	"github.com/fardream/go-bcs/bcs"
-	"github.com/stork-oracle/go-sui-sdk/v2/move_types"
 	"github.com/stretchr/testify/require"
 )
 

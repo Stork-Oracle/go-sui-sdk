@@ -1,6 +1,6 @@
 package move_types
 
-import "github.com/stork-oracle/go-sui-sdk/v2/lib"
+import "github.com/Stork-Oracle/go-sui-sdk/v2/lib"
 
 type StructTag struct {
 	Address    AccountAddress
