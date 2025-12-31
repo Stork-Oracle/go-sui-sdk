@@ -2,26 +2,26 @@ name: Go
 
 on:
   push:
-    branches: [ "main", "devnet", "testnet"]
+    branches: ["main", "devnet", "testnet"]
   pull_request:
-    branches: [ "main", "devnet", "testnet" ]
+    branches: ["main", "devnet", "testnet"]
 
 jobs:
-
-  TestAndBuild:
-    runs-on: ubuntu-latest
-    env:
-      WalletSdkTestM1: ${{ secrets.WALLETSDKTESTM1 }}
+  integration-test:
+    runs-on: ubuntu-22.04-arm
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.19
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.24.3
 
-    - name: Test
-      run: go test -v ./...
+      - name: Start Sui
+        run: docker compose up -d --quiet-pull
 
-    - name: Build
-      run: go build -v ./...
+      - name: Integration Test
+        run: go test -v ./...
+
+      - name: Build
+        run: go build -v ./...

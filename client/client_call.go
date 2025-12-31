@@ -5,9 +5,9 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/coming-chat/go-sui/v2/lib"
-	"github.com/coming-chat/go-sui/v2/sui_types"
-	"github.com/coming-chat/go-sui/v2/types"
+	"github.com/stork-oracle/go-sui/v2/lib"
+	"github.com/stork-oracle/go-sui/v2/sui_types"
+	"github.com/stork-oracle/go-sui/v2/types"
 )
 
 // NOTE: This copys the query limit from our Rust JSON RPC backend, this needs to be kept in sync!

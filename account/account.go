@@ -5,8 +5,8 @@ import (
 	"encoding/hex"
 
 	"github.com/coming-chat/go-aptos/crypto/derivation"
-	"github.com/coming-chat/go-sui/v2/sui_types"
-	"github.com/tyler-smith/go-bip39"
+	"github.com/cosmos/go-bip39"
+	"github.com/stork-oracle/go-sui/v2/sui_types"
 	"golang.org/x/crypto/blake2b"
 )
 

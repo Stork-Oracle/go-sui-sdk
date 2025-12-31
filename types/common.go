@@ -1,10 +1,12 @@
 package types
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/coming-chat/go-sui/v2/sui_types"
-	"github.com/shopspring/decimal"
 	"math/big"
+
+	"github.com/shopspring/decimal"
+	"github.com/stork-oracle/go-sui/v2/sui_types"
 )
 
 type SuiBigInt = decimal.Decimal
@@ -84,7 +86,7 @@ type ObjectOwner struct {
 
 type Page[T SuiTransactionBlockResponse | SuiEvent | Coin | SuiObjectResponse | DynamicFieldInfo | string,
 	C sui_types.TransactionDigest | EventId | sui_types.ObjectID] struct {
-	Data        []T  `json:"data"`
-	NextCursor  *C   `json:"nextCursor,omitempty"`
-	HasNextPage bool `json:"hasNextPage"`
+	Data        []T              `json:"data"`
+	NextCursor  *json.RawMessage `json:"nextCursor,omitempty"`
+	HasNextPage bool             `json:"hasNextPage"`
 }

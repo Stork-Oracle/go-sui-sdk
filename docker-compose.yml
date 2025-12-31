@@ -1,0 +1,11 @@
+services:
+  sui:
+    image: mysten/sui-tools:ci-arm64
+    platform: linux/arm64
+    command: >
+      sh -lc '
+        RUST_LOG=off,sui_node=info sui start --with-faucet --force-regenesis 
+      '
+    ports:
+      - "9000:9000" # JSON-RPC
+      - "9123:9123" # faucet (if enabled)

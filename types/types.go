@@ -4,9 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
-	"github.com/coming-chat/go-sui/v2/lib"
-	"github.com/coming-chat/go-sui/v2/sui_types"
 	"strings"
+
+	"github.com/stork-oracle/go-sui/v2/lib"
+	"github.com/stork-oracle/go-sui/v2/sui_types"
 )
 
 const (

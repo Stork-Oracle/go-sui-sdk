@@ -4,22 +4,22 @@ import (
 	"context"
 	"testing"
 
-	"github.com/coming-chat/go-sui/v2/lib"
-	"github.com/coming-chat/go-sui/v2/sui_types"
-	"github.com/coming-chat/go-sui/v2/sui_types/sui_system_state"
-	"github.com/coming-chat/go-sui/v2/types"
 	"github.com/fardream/go-bcs/bcs"
+	"github.com/stork-oracle/go-sui/v2/account"
+	"github.com/stork-oracle/go-sui/v2/lib"
+	"github.com/stork-oracle/go-sui/v2/sui_types"
+	"github.com/stork-oracle/go-sui/v2/sui_types/sui_system_state"
+	"github.com/stork-oracle/go-sui/v2/types"
 	"github.com/stretchr/testify/require"
 )
 
 func TestBCS_TransferObject(t *testing.T) {
-	sender, err := sui_types.NewAddressFromHex("0xd77955e670f42c1bc5e94b9e68e5fe9bdbed9134d784f2a14dfe5fc1b24b5d9f")
-	require.NoError(t, err)
+	sender := Address
 	recipient := sender
 	gasBudget := SUI(0.01).Uint64()
 
-	cli := TestnetClient(t)
-	coins := GetCoins(t, cli, *sender, 2)
+	cli := LocalFundedClient(t)
+	coins := GetCoins(t, cli, M1Account(t), 2)
 	coin, gas := coins[0], coins[1]
 
 	gasPrice := uint64(1000)
@@ -27,7 +27,7 @@ func TestBCS_TransferObject(t *testing.T) {
 
 	// build with BCS
 	ptb := sui_types.NewProgrammableTransactionBuilder()
-	err = ptb.TransferObject(*recipient, []*sui_types.ObjectRef{coin.Reference()})
+	err := ptb.TransferObject(*recipient, []*sui_types.ObjectRef{coin.Reference()})
 	require.NoError(t, err)
 	pt := ptb.Finish()
 	tx := sui_types.NewProgrammable(
@@ -53,21 +53,20 @@ func TestBCS_TransferObject(t *testing.T) {
 }
 
 func TestBCS_TransferSui(t *testing.T) {
-	sender, err := sui_types.NewAddressFromHex("0xd77955e670f42c1bc5e94b9e68e5fe9bdbed9134d784f2a14dfe5fc1b24b5d9f")
-	require.NoError(t, err)
+	sender := Address
 	recipient := sender
 	amount := SUI(0.001).Uint64()
 	gasBudget := SUI(0.01).Uint64()
 
-	cli := TestnetClient(t)
-	coin := GetCoins(t, cli, *sender, 1)[0]
+	cli := LocalFundedClient(t)
+	coin := GetCoins(t, cli, M1Account(t), 1)[0]
 
 	gasPrice := uint64(1000)
 	// gasPrice, err := cli.GetReferenceGasPrice(context.Background())
 
 	// build with BCS
 	ptb := sui_types.NewProgrammableTransactionBuilder()
-	err = ptb.TransferSui(*recipient, &amount)
+	err := ptb.TransferSui(*recipient, &amount)
 	require.NoError(t, err)
 	pt := ptb.Finish()
 	tx := sui_types.NewProgrammable(
@@ -92,22 +91,21 @@ func TestBCS_TransferSui(t *testing.T) {
 }
 
 func TestBCS_PaySui(t *testing.T) {
-	sender, err := sui_types.NewAddressFromHex("0xd77955e670f42c1bc5e94b9e68e5fe9bdbed9134d784f2a14dfe5fc1b24b5d9f")
-	require.NoError(t, err)
+	sender := Address
 	// recipient := sender
 	recipient2, _ := sui_types.NewAddressFromHex("0x123456")
 	amount := SUI(0.001).Uint64()
 	gasBudget := SUI(0.01).Uint64()
 
-	cli := TestnetClient(t)
-	coin := GetCoins(t, cli, *sender, 1)[0]
+	cli := LocalFundedClient(t)
+	coin := GetCoins(t, cli, M1Account(t), 1)[0]
 
 	gasPrice := uint64(1000)
 	// gasPrice, err := cli.GetReferenceGasPrice(context.Background())
 
 	// build with BCS
 	ptb := sui_types.NewProgrammableTransactionBuilder()
-	err = ptb.PaySui([]suiAddress{*recipient2, *recipient2}, []uint64{amount, amount})
+	err := ptb.PaySui([]suiAddress{*recipient2, *recipient2}, []uint64{amount, amount})
 	require.NoError(t, err)
 	pt := ptb.Finish()
 	tx := sui_types.NewProgrammable(
@@ -136,13 +134,12 @@ func TestBCS_PaySui(t *testing.T) {
 }
 
 func TestBCS_PayAllSui(t *testing.T) {
-	sender, err := sui_types.NewAddressFromHex("0xd77955e670f42c1bc5e94b9e68e5fe9bdbed9134d784f2a14dfe5fc1b24b5d9f")
-	require.NoError(t, err)
+	sender := Address
 	recipient := sender
 	gasBudget := SUI(0.01).Uint64()
 
-	cli := TestnetClient(t)
-	coins := GetCoins(t, cli, *sender, 2)
+	cli := LocalFundedClient(t)
+	coins := GetCoins(t, cli, M1Account(t), 2)
 	coin, coin2 := coins[0], coins[1]
 
 	gasPrice := uint64(1000)
@@ -150,7 +147,7 @@ func TestBCS_PayAllSui(t *testing.T) {
 
 	// build with BCS
 	ptb := sui_types.NewProgrammableTransactionBuilder()
-	err = ptb.PayAllSui(*recipient)
+	err := ptb.PayAllSui(*recipient)
 	require.NoError(t, err)
 	pt := ptb.Finish()
 	tx := sui_types.NewProgrammable(
@@ -178,15 +175,13 @@ func TestBCS_PayAllSui(t *testing.T) {
 }
 
 func TestBCS_Pay(t *testing.T) {
-	sender, err := sui_types.NewAddressFromHex("0xd77955e670f42c1bc5e94b9e68e5fe9bdbed9134d784f2a14dfe5fc1b24b5d9f")
-	require.NoError(t, err)
-	// recipient := sender
+	sender := Address
 	recipient2, _ := sui_types.NewAddressFromHex("0x123456")
 	amount := SUI(0.001).Uint64()
 	gasBudget := SUI(0.01).Uint64()
 
-	cli := TestnetClient(t)
-	coins := GetCoins(t, cli, *sender, 2)
+	cli := LocalFundedClient(t)
+	coins := GetCoins(t, cli, M1Account(t), 2)
 	coin, gas := coins[0], coins[1]
 
 	gasPrice := uint64(1000)
@@ -194,7 +189,7 @@ func TestBCS_Pay(t *testing.T) {
 
 	// build with BCS
 	ptb := sui_types.NewProgrammableTransactionBuilder()
-	err = ptb.Pay(
+	err := ptb.Pay(
 		[]*sui_types.ObjectRef{coin.Reference()},
 		[]suiAddress{*recipient2, *recipient2},
 		[]uint64{amount, amount},
@@ -229,17 +224,15 @@ func TestBCS_Pay(t *testing.T) {
 }
 
 func TestBCS_MoveCall(t *testing.T) {
-	sender, err := sui_types.NewAddressFromHex("0xd77955e670f42c1bc5e94b9e68e5fe9bdbed9134d784f2a14dfe5fc1b24b5d9f")
-	require.NoError(t, err)
+	sender := Address
 	gasBudget := SUI(0.02).Uint64()
 	gasPrice := uint64(1000)
 
-	cli := TestnetClient(t)
-	coins := GetCoins(t, cli, *sender, 2)
+	cli := LocalFundedClient(t)
+	coins := GetCoins(t, cli, M1Account(t), 2)
 	coin, coin2 := coins[0], coins[1]
 
-	validatorAddress, err := sui_types.NewAddressFromHex(ComingChatValidatorAddress)
-	require.NoError(t, err)
+	validatorAddress := ValidatorAddress(t)
 
 	// build with BCS
 	ptb := sui_types.NewProgrammableTransactionBuilder()
@@ -320,9 +313,64 @@ func TestBCS_MoveCall(t *testing.T) {
 	t.Log(resp.Effects.Data.GasFee())
 }
 
-func GetCoins(t *testing.T, cli *Client, sender suiAddress, needCount int) []types.Coin {
-	coins, err := cli.GetCoins(context.Background(), sender, nil, nil, uint(needCount))
+func GetCoins(t *testing.T, cli *Client, account *account.Account, needCount int) []types.Coin {
+	signer := SuiAddressNoErr(account.Address)
+	coins, err := cli.GetCoins(context.Background(), *signer, nil, nil, uint(needCount))
 	require.NoError(t, err)
-	require.True(t, len(coins.Data) >= needCount)
+	if len(coins.Data) < needCount {
+		coin := coins.Data[0]
+		splitCount := uint64(needCount - len(coins.Data) + 1) // +1 to ensure we have enough
+
+		ptb := sui_types.NewProgrammableTransactionBuilder()
+		amountPerCoin := coin.Balance.Uint64() / (splitCount + 2)
+		splitCoins := make([]sui_types.Argument, 0, splitCount)
+		for i := uint64(0); i < splitCount; i++ {
+			amtArg, err := ptb.Pure(amountPerCoin)
+			require.NoError(t, err)
+			splitCoin := ptb.Command(sui_types.Command{
+				SplitCoins: &struct {
+					Argument  sui_types.Argument
+					Arguments []sui_types.Argument
+				}{
+					Argument:  sui_types.Argument{GasCoin: &lib.EmptyEnum{}},
+					Arguments: []sui_types.Argument{amtArg},
+				},
+			})
+			splitCoins = append(splitCoins, splitCoin)
+		}
+
+		// Transfer the split coins to sender (required, otherwise UnusedValueWithoutDrop error)
+		recipientArg, err := ptb.Pure(signer)
+		require.NoError(t, err)
+		ptb.Command(sui_types.Command{
+			TransferObjects: &struct {
+				Arguments []sui_types.Argument
+				Argument  sui_types.Argument
+			}{
+				Arguments: splitCoins,
+				Argument:  recipientArg,
+			},
+		})
+
+		pt := ptb.Finish()
+		gasPrice := uint64(1000)
+		gasBudget := SUI(0.01).Uint64()
+		tx := sui_types.NewProgrammable(
+			*signer,
+			[]*sui_types.ObjectRef{coin.Reference()},
+			pt,
+			gasBudget,
+			gasPrice,
+		)
+
+		txBytes, err := bcs.Marshal(tx)
+		require.NoError(t, err)
+		_ = executeTxn(t, cli, txBytes, account)
+
+		// Fetch coins again
+		coins, err = cli.GetCoins(context.Background(), *signer, nil, nil, uint(needCount))
+		require.NoError(t, err)
+		require.GreaterOrEqual(t, len(coins.Data), needCount, "Should have at least %d coins after splitting", needCount)
+	}
 	return coins.Data
 }

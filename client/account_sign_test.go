@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/coming-chat/go-sui/v2/account"
-	"github.com/coming-chat/go-sui/v2/types"
+	"github.com/stork-oracle/go-sui/v2/account"
+	"github.com/stork-oracle/go-sui/v2/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -20,7 +20,7 @@ func ManualTest_AccountSignAndSend(t *testing.T) {
 	require.Nil(t, err)
 	t.Log(account.Address)
 
-	cli := TestnetClient(t)
+	cli := LocalFundedClient(t)
 	signer := SuiAddressNoErr(account.Address)
 	coins, err := cli.GetSuiCoinsOwnedByAddress(context.Background(), *signer)
 	require.Nil(t, err)
