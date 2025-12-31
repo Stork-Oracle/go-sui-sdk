@@ -1,6 +1,6 @@
 package sui_types
 
-import "github.com/stork-oracle/go-sui/v2/lib"
+import "github.com/stork-oracle/go-sui-sdk/lib"
 
 const (
 	ObjectStartVersion = SequenceNumber(1)

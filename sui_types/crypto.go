@@ -10,8 +10,8 @@ import (
 	"reflect"
 
 	"github.com/fardream/go-bcs/bcs"
-	"github.com/stork-oracle/go-sui/v2/crypto"
-	"github.com/stork-oracle/go-sui/v2/lib"
+	"github.com/stork-oracle/go-sui-sdk/crypto"
+	"github.com/stork-oracle/go-sui-sdk/lib"
 	"golang.org/x/crypto/blake2b"
 )
 

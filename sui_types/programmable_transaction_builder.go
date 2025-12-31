@@ -7,8 +7,8 @@ import (
 
 	"github.com/fardream/go-bcs/bcs"
 	"github.com/mitchellh/hashstructure/v2"
-	"github.com/stork-oracle/go-sui/v2/lib"
-	"github.com/stork-oracle/go-sui/v2/move_types"
+	"github.com/stork-oracle/go-sui-sdk/lib"
+	"github.com/stork-oracle/go-sui-sdk/move_types"
 )
 
 type BuilderArg struct {

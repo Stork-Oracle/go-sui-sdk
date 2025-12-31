@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/stork-oracle/go-sui/v2/account"
-	"github.com/stork-oracle/go-sui/v2/types"
+	"github.com/stork-oracle/go-sui-sdk/account"
+	"github.com/stork-oracle/go-sui-sdk/types"
 	"github.com/stretchr/testify/require"
 )
 

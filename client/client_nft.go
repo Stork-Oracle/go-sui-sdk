@@ -3,8 +3,8 @@ package client
 import (
 	"context"
 
-	"github.com/stork-oracle/go-sui/v2/sui_types"
-	"github.com/stork-oracle/go-sui/v2/types"
+	"github.com/stork-oracle/go-sui-sdk/sui_types"
+	"github.com/stork-oracle/go-sui-sdk/types"
 )
 
 // MintNFT

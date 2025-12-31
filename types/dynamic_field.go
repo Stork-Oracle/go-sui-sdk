@@ -1,8 +1,8 @@
 package types
 
 import (
-	"github.com/stork-oracle/go-sui/v2/lib"
-	"github.com/stork-oracle/go-sui/v2/sui_types"
+	"github.com/stork-oracle/go-sui-sdk/lib"
+	"github.com/stork-oracle/go-sui-sdk/sui_types"
 )
 
 type DynamicFieldInfo struct {
