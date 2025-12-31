@@ -4,10 +4,10 @@ import (
 	"context"
 
 	"github.com/fardream/go-bcs/bcs"
-	"github.com/stork-oracle/go-sui-sdk/lib"
-	"github.com/stork-oracle/go-sui-sdk/sui_types"
-	"github.com/stork-oracle/go-sui-sdk/sui_types/sui_system_state"
-	"github.com/stork-oracle/go-sui-sdk/types"
+	"github.com/stork-oracle/go-sui-sdk/v2/lib"
+	"github.com/stork-oracle/go-sui-sdk/v2/sui_types"
+	"github.com/stork-oracle/go-sui-sdk/v2/sui_types/sui_system_state"
+	"github.com/stork-oracle/go-sui-sdk/v2/types"
 )
 
 func (c *Client) GetLatestSuiSystemState(ctx context.Context) (*types.SuiSystemStateSummary, error) {

@@ -1,8 +1,8 @@
 package sui_types
 
 import (
-	"github.com/stork-oracle/go-sui-sdk/lib"
-	"github.com/stork-oracle/go-sui-sdk/move_types"
+	"github.com/stork-oracle/go-sui-sdk/v2/lib"
+	"github.com/stork-oracle/go-sui-sdk/v2/move_types"
 )
 
 type SuiAddress = move_types.AccountAddress
