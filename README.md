@@ -10,7 +10,7 @@ We welcome other developers to participate in the development and testing of sui
 ## Install
 
 ```sh
-go get github.com/stork-oracle/go-sui-sdk
+go get github.com/stork-oracle/go-sui-sdk/v2
 ```
 
 
@@ -20,7 +20,7 @@ go get github.com/stork-oracle/go-sui-sdk
 ### Account
 
 ```go
-import "github.com/stork-oracle/go-sui/account"
+import "github.com/stork-oracle/go-sui-sdk/v2/account"
 
 // Import account with mnemonic
 acc, err := account.NewAccountWithMnemonic(mnemonic)
@@ -45,8 +45,8 @@ signedData := acc.Sign(data)
 All data interactions on the Sui chain are implemented through the rpc client.
 
 ```go
-import "github.com/stork-oracle/go-sui/client"
-import "github.com/stork-oracle/go-sui/types"
+import "github.com/stork-oracle/go-sui-sdk/v2/client"
+import "github.com/stork-oracle/go-sui-sdk/v2/types"
 
 cli, err := client.Dial(rpcUrl)
 
@@ -76,9 +76,9 @@ We currently have some rpc methods built-in, [see here](https://github.com/stork
 ### Build Transaction & Sign ( Transfer Sui )
 
 ```go
-import "github.com/stork-oracle/go-sui/client"
-import "github.com/stork-oracle/go-sui/types"
-import "github.com/stork-oracle/go-sui/account"
+import "github.com/stork-oracle/go-sui-sdk/v2/client"
+import "github.com/stork-oracle/go-sui-sdk/v2/types"
+import "github.com/stork-oracle/go-sui-sdk/v2/account"
 
 acc, err := account.NewAccountWithMnemonic(mnemonic)
 signer, _ := types.NewAddressFromHex(acc.Address)
