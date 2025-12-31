@@ -1,8 +1,8 @@
 # go-sui-sdk
 Sui Golang SDK forked from [coming-chat/go-sui-sdk](https://github.com/coming-chat/go-sui-sdk)
 
-[![Documentation (master)](https://img.shields.io/badge/docs-master-59f)](https://github.com/stork-oracle/go-sui-sdk)
-[![License](https://img.shields.io/badge/license-Apache-green.svg)](https://github.com/stork-oracle/go-sui-sdk/v2/blob/main/LICENSE)
+[![Documentation (master)](https://img.shields.io/badge/docs-master-59f)](https://github.com/Stork-Oracle/go-sui-sdk)
+[![License](https://img.shields.io/badge/license-Apache-green.svg)](https://github.com/Stork-Oracle/go-sui-sdk/v2/blob/main/LICENSE)
 
 The Sui Golang SDK for Stork Oracle. 
 We welcome other developers to participate in the development and testing of sui-sdk.
@@ -10,7 +10,7 @@ We welcome other developers to participate in the development and testing of sui
 ## Install
 
 ```sh
-go get github.com/stork-oracle/go-sui-sdk/v2
+go get github.com/Stork-Oracle/go-sui-sdk/v2
 ```
 
 
@@ -20,7 +20,7 @@ go get github.com/stork-oracle/go-sui-sdk/v2
 ### Account
 
 ```go
-import "github.com/stork-oracle/go-sui-sdk/v2/account"
+import "github.com/Stork-Oracle/go-sui-sdk/v2/account"
 
 // Import account with mnemonic
 acc, err := account.NewAccountWithMnemonic(mnemonic)
@@ -45,8 +45,8 @@ signedData := acc.Sign(data)
 All data interactions on the Sui chain are implemented through the rpc client.
 
 ```go
-import "github.com/stork-oracle/go-sui-sdk/v2/client"
-import "github.com/stork-oracle/go-sui-sdk/v2/types"
+import "github.com/Stork-Oracle/go-sui-sdk/v2/client"
+import "github.com/Stork-Oracle/go-sui-sdk/v2/types"
 
 cli, err := client.Dial(rpcUrl)
 
@@ -69,16 +69,16 @@ print("transaction timestamp = ", resp.TimestampMs)
 
 ```
 
-We currently have some rpc methods built-in, [see here](https://github.com/stork-oracle/go-sui-sdk/v2/blob/main/client/client_call.go)
+We currently have some rpc methods built-in, [see here](https://github.com/Stork-Oracle/go-sui-sdk/v2/blob/main/client/client_call.go)
 
 
 
 ### Build Transaction & Sign ( Transfer Sui )
 
 ```go
-import "github.com/stork-oracle/go-sui-sdk/v2/client"
-import "github.com/stork-oracle/go-sui-sdk/v2/types"
-import "github.com/stork-oracle/go-sui-sdk/v2/account"
+import "github.com/Stork-Oracle/go-sui-sdk/v2/client"
+import "github.com/Stork-Oracle/go-sui-sdk/v2/types"
+import "github.com/Stork-Oracle/go-sui-sdk/v2/account"
 
 acc, err := account.NewAccountWithMnemonic(mnemonic)
 signer, _ := types.NewAddressFromHex(acc.Address)

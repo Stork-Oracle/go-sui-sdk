@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/stork-oracle/go-sui-sdk/v2/sui_types"
+	"github.com/Stork-Oracle/go-sui-sdk/v2/sui_types"
 )
 
 type ResourceType struct {

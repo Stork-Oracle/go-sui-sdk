@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/stork-oracle/go-sui-sdk/v2/sui_types"
+	"github.com/Stork-Oracle/go-sui-sdk/v2/sui_types"
 )
 
 const (

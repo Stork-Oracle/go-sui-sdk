@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/Stork-Oracle/go-sui-sdk/v2/sui_types"
 	"github.com/shopspring/decimal"
-	"github.com/stork-oracle/go-sui-sdk/v2/sui_types"
 )
 
 type SuiBigInt = decimal.Decimal

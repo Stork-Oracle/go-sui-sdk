@@ -1,9 +1,9 @@
 package sui_types
 
 import (
-	"github.com/stork-oracle/go-sui-sdk/v2/lib"
-	"github.com/stork-oracle/go-sui-sdk/v2/move_types"
-	"github.com/stork-oracle/go-sui-sdk/v2/sui_protocol"
+	"github.com/Stork-Oracle/go-sui-sdk/v2/lib"
+	"github.com/Stork-Oracle/go-sui-sdk/v2/move_types"
+	"github.com/Stork-Oracle/go-sui-sdk/v2/sui_protocol"
 )
 
 type TransactionData struct {

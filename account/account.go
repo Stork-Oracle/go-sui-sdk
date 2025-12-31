@@ -4,9 +4,9 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 
+	"github.com/Stork-Oracle/go-sui-sdk/v2/sui_types"
 	"github.com/coming-chat/go-aptos/crypto/derivation"
 	"github.com/cosmos/go-bip39"
-	"github.com/stork-oracle/go-sui-sdk/v2/sui_types"
 	"golang.org/x/crypto/blake2b"
 )
 

@@ -6,8 +6,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/stork-oracle/go-sui-sdk/v2/lib"
-	"github.com/stork-oracle/go-sui-sdk/v2/sui_types"
+	"github.com/Stork-Oracle/go-sui-sdk/v2/lib"
+	"github.com/Stork-Oracle/go-sui-sdk/v2/sui_types"
 )
 
 type StakeStatus = lib.TagJson[Status]
